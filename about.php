@@ -11,7 +11,7 @@ include 'includes/header.php';
         <div class="about-content">
             <div class="about-text">
                 <h3>Our Story</h3>
-                <p>Founded in 2021, Kamal Football Academy has been at the forefront of youth football development for over 15 years. Our academy was born from a passion for the beautiful game and a commitment to nurturing young talent.</p>
+                <p>Founded in 2021, Kamal Football Academy has been at the forefront of youth football development for over 4 years. Our academy was born from a passion for the beautiful game and a commitment to nurturing young talent.</p>
                 
                 <p>We believe that football is more than just a sport - it's a vehicle for teaching life skills, building character, and creating lasting friendships. Our holistic approach focuses on developing well-rounded individuals both on and off the pitch.</p>
                 
@@ -37,7 +37,7 @@ include 'includes/header.php';
             </div>
             
             <div class="about-image">
-                <img src="https://images.unsplash.com/photo-1599058917765-a780eda07a3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1469&q=80" alt="Elite Football Academy Training">
+                <img src="image/hero7.jpg" alt="Elite Football Academy Training">
             </div>
         </div>
         

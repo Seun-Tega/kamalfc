@@ -183,7 +183,7 @@ include 'includes/header.php';
 
 
 <!-- Featured Players Section -->
-<section class="coaches">
+<!-- <section class="coaches">
     <div class="container">
         <h2>Featured Players</h2>
         <div class="coaches-grid">
@@ -213,7 +213,7 @@ include 'includes/header.php';
             <a href="players.php" class="btn">View All Players</a>
         </div>
     </div>
-</section>
+</section> -->
 
 <!-- Registration CTA Section -->
 <section class="hero" style="background: linear-gradient(rgba(43, 43, 43, 0.9), rgba(43, 43, 43, 0.9)), url('https://images.unsplash.com/photo-1575361204480-aadea25e6e68?ixlib=rb-4.0.3&auto=format&fit=crop&w=1471&q=80'); margin-top: 0;">
@@ -265,7 +265,7 @@ include 'includes/header.php';
 </section>
 
 <!-- Testimonials Section -->
-<section class="testimonials">
+<!-- <section class="testimonials">
     <div class="container">
         <h2>What Parents & Players Say</h2>
         <div class="testimonials-container">
@@ -299,6 +299,281 @@ include 'includes/header.php';
             </div>
         </div>
     </div>
+</section> -->
+<!-- Gallery Section -->
+<!-- Gallery Section -->
+<section class="gallery">
+    <div class="container">
+        <h2>Our Gallery</h2>
+        <div class="gallery-grid">
+            <?php
+            $stmt = $pdo->query("SELECT * FROM gallery WHERE status = 'active' ORDER BY upload_date DESC LIMIT 3");
+            $gallery_count = 0;
+            while ($gallery = $stmt->fetch()):
+                $gallery_count++;
+            ?>
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="<?php echo getGalleryImage($gallery['image_path']); ?>" 
+                         alt="<?php echo htmlspecialchars($gallery['title']); ?>">
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h3><?php echo htmlspecialchars($gallery['title']); ?></h3>
+                            <p><?php echo htmlspecialchars($gallery['description']); ?></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php endwhile; ?>
+            
+            <?php if ($gallery_count === 0): ?>
+                <div class="no-gallery-items" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                    <p style="font-size: 1.1rem; color: var(--gray);">No gallery images available yet.</p>
+                </div>
+            <?php endif; ?>
+        </div>
+        <div class="gallery-cta">
+            <a href="gallery.php" class="btn">View Full Gallery</a>
+        </div>
+    </div>
 </section>
 
+<!-- Videos Section -->
+<!-- Videos Section -->
+<section class="videos">
+    <div class="container">
+        <h2>Training Videos</h2>
+        <div class="videos-grid">
+            <?php
+            $stmt = $pdo->query("SELECT * FROM videos WHERE status = 'active' ORDER BY upload_date DESC LIMIT 3");
+            $video_count = 0;
+            while ($video = $stmt->fetch()):
+                $video_count++;
+                $video_url = getVideoUrl($video['video_path']);
+            ?>
+            <div class="video-card" data-video="<?php echo $video_url; ?>">
+                <div class="video-container">
+                    <?php if (!empty($video['thumbnail_path'])): ?>
+                        <img src="<?php echo getGalleryImage($video['thumbnail_path']); ?>" 
+                             alt="<?php echo htmlspecialchars($video['title']); ?>" 
+                             class="video-thumbnail">
+                    <?php else: ?>
+                        <div class="video-placeholder">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    <?php endif; ?>
+                    <div class="video-play-btn">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="video-content">
+                    <h3><?php echo htmlspecialchars($video['title']); ?></h3>
+                    <p><?php echo htmlspecialchars($video['description']); ?></p>
+                    <div class="video-meta">
+                        <span class="video-category"><?php echo ucfirst($video['category']); ?></span>
+                        <?php if (!empty($video['duration'])): ?>
+                            <span class="video-duration"><?php echo $video['duration']; ?></span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+            <?php endwhile; ?>
+            
+            <?php if ($video_count === 0): ?>
+                <div class="no-videos" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                    <p style="font-size: 1.1rem; color: var(--gray);">No videos available yet.</p>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</section>
+
+<!-- Video Modal (ONLY ONE - remove the duplicate) -->
+<div class="video-modal" id="videoModal">
+    <div class="modal-content">
+        <button class="close-modal" id="closeModal">
+            <i class="fas fa-times"></i>
+        </button>
+        <video controls class="modal-video" id="modalVideo">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+
+<script>
+// Video modal functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const videoModal = document.getElementById('videoModal');
+    const modalVideo = document.getElementById('modalVideo');
+    const closeModal = document.getElementById('closeModal');
+    const videoCards = document.querySelectorAll('.video-card');
+    
+    // Open modal when video card is clicked
+    videoCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const videoSrc = this.getAttribute('data-video');
+            if (videoSrc) {
+                modalVideo.src = videoSrc;
+                videoModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+    });
+    
+    // Close modal
+    closeModal.addEventListener('click', function() {
+        videoModal.classList.remove('active');
+        modalVideo.pause();
+        modalVideo.src = '';
+        document.body.style.overflow = '';
+    });
+    
+    // Close modal when clicking outside
+    videoModal.addEventListener('click', function(e) {
+        if (e.target === videoModal) {
+            videoModal.classList.remove('active');
+            modalVideo.pause();
+            modalVideo.src = '';
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && videoModal.classList.contains('active')) {
+            videoModal.classList.remove('active');
+            modalVideo.pause();
+            modalVideo.src = '';
+            document.body.style.overflow = '';
+        }
+    });
+});
+
+// Hero Carousel functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Hero Carousel
+    const heroSlides = document.querySelectorAll('.carousel-slide');
+    const heroIndicators = document.querySelectorAll('.carousel-indicators .indicator');
+    const prevBtn = document.querySelector('.carousel-control.prev');
+    const nextBtn = document.querySelector('.carousel-control.next');
+    let currentSlide = 0;
+    let slideInterval;
+
+    function showSlide(index) {
+        heroSlides.forEach(slide => slide.classList.remove('active'));
+        heroIndicators.forEach(indicator => indicator.classList.remove('active'));
+        
+        currentSlide = (index + heroSlides.length) % heroSlides.length;
+        
+        heroSlides[currentSlide].classList.add('active');
+        if (heroIndicators[currentSlide]) {
+            heroIndicators[currentSlide].classList.add('active');
+        }
+    }
+
+    function nextSlide() {
+        showSlide(currentSlide + 1);
+    }
+
+    function prevSlide() {
+        showSlide(currentSlide - 1);
+    }
+
+    // Auto-advance slides
+    function startSlideShow() {
+        slideInterval = setInterval(nextSlide, 5000);
+    }
+
+    function stopSlideShow() {
+        clearInterval(slideInterval);
+    }
+
+    // Event listeners
+    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+
+    heroIndicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            showSlide(index);
+            stopSlideShow();
+            startSlideShow();
+        });
+    });
+
+    // Pause on hover
+    const carouselContainer = document.querySelector('.carousel-container');
+    if (carouselContainer) {
+        carouselContainer.addEventListener('mouseenter', stopSlideShow);
+        carouselContainer.addEventListener('mouseleave', startSlideShow);
+    }
+
+    // Start the slideshow
+    startSlideShow();
+
+    // About Carousel functionality - FIXED VERSION
+    const aboutSlides = document.querySelectorAll('.about-carousel-slide');
+    const aboutIndicators = document.querySelectorAll('.about-carousel-indicators .about-indicator');
+    const aboutPrevBtn = document.querySelector('.about-carousel-control.prev');
+    const aboutNextBtn = document.querySelector('.about-carousel-control.next');
+    
+    // Only initialize if elements exist
+    if (aboutSlides.length > 0) {
+        let currentAboutSlide = 0;
+        let aboutSlideInterval;
+
+        function showAboutSlide(index) {
+            aboutSlides.forEach(slide => slide.classList.remove('active'));
+            aboutIndicators.forEach(indicator => indicator.classList.remove('active'));
+            
+            currentAboutSlide = (index + aboutSlides.length) % aboutSlides.length;
+            
+            aboutSlides[currentAboutSlide].classList.add('active');
+            if (aboutIndicators[currentAboutSlide]) {
+                aboutIndicators[currentAboutSlide].classList.add('active');
+            }
+        }
+
+        function nextAboutSlide() {
+            showAboutSlide(currentAboutSlide + 1);
+        }
+
+        // Auto-advance about slides
+        function startAboutSlideShow() {
+            aboutSlideInterval = setInterval(nextAboutSlide, 4000);
+        }
+
+        // Event listeners for about carousel
+        if (aboutNextBtn) {
+            aboutNextBtn.addEventListener('click', () => {
+                nextAboutSlide();
+                resetAboutInterval();
+            });
+        }
+
+        if (aboutPrevBtn) {
+            aboutPrevBtn.addEventListener('click', () => {
+                showAboutSlide(currentAboutSlide - 1);
+                resetAboutInterval();
+            });
+        }
+
+        if (aboutIndicators.length > 0) {
+            aboutIndicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    showAboutSlide(index);
+                    resetAboutInterval();
+                });
+            });
+        }
+
+        function resetAboutInterval() {
+            clearInterval(aboutSlideInterval);
+            startAboutSlideShow();
+        }
+
+        // Start about slideshow
+        startAboutSlideShow();
+    }
+});
+</script>
 <?php include 'includes/footer.php'; ?>

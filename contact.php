@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         <div>
                             <h4>Location</h4>
-                            <p>123 Sports Avenue, Football City, FC 12345</p>
+                            <p>TechPro Complex, Ogo-Oluwa Osogbo</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         <div>
                             <h4>Phone</h4>
-                            <p>(123) 456-7890</p>
+                            <p>(234) 7018984316</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         <div>
                             <h4>Email</h4>
-                            <p>info@elitefootballacademy.com</p>
+                            <p>kamalfootballclub@gmail.com</p>
                         </div>
                     </div>
                     <div class="contact-item">

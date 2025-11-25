@@ -70,4 +70,41 @@ function getStaffImage($image_filename) {
     // Default staff image
     return 'https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1374&q=80';
 }
+// Add these after the existing upload path definitions in config.php
+define('GALLERY_UPLOAD_PATH', UPLOAD_PATH . 'gallery/');
+define('VIDEO_UPLOAD_PATH', UPLOAD_PATH . 'videos/');
+define('GALLERY_UPLOAD_URL', '/elite-football-academy/uploads/gallery/');
+define('VIDEO_UPLOAD_URL', '/elite-football-academy/uploads/videos/');
+
+// Create gallery and video directories if they don't exist
+$directories = [GALLERY_UPLOAD_PATH, VIDEO_UPLOAD_PATH];
+foreach ($directories as $dir) {
+    if (!file_exists($dir)) {
+        mkdir($dir, 0777, true);
+    }
+}
+
+// Gallery image helper function
+function getGalleryImage($image_filename) {
+    if (!empty($image_filename)) {
+        $full_path = GALLERY_UPLOAD_PATH . $image_filename;
+        if (file_exists($full_path)) {
+            return GALLERY_UPLOAD_URL . $image_filename;
+        }
+    }
+    // Default gallery image
+    return 'https://images.unsplash.com/photo-1575361204480-aadea25e6e68?ixlib=rb-4.0.3&auto=format&fit=crop&w=1471&q=80';
+}
+
+// Video helper function - UPDATED VERSION
+function getVideoUrl($video_filename) {
+    if (!empty($video_filename)) {
+        $full_path = VIDEO_UPLOAD_PATH . $video_filename;
+        if (file_exists($full_path)) {
+            // Return absolute URL for better reliability
+            return 'http://' . $_SERVER['HTTP_HOST'] . VIDEO_UPLOAD_URL . $video_filename;
+        }
+    }
+    return '';
+}
 ?>

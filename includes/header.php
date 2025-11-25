@@ -12,6 +12,7 @@ if (!isset($pdo)) {
     <title><?php echo isset($pageTitle) ? $pageTitle . ' | ' : ''; ?>Kamal Football Academy</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/players.css">
 </head>
 <body>
     <!-- Header -->
