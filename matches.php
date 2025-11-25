@@ -33,8 +33,8 @@ $completed_matches = $pdo->query("SELECT * FROM matches WHERE status = 'complete
                         </div>
                         <div class="match-teams">
                             <div class="team">
-                                <div class="team-logo">EFA</div>
-                                <h4>Elite FA</h4>
+                                <div class="team-logo">KFA</div>
+                                <h4>Kamal FA</h4>
                             </div>
                             <div class="vs">VS</div>
                             <div class="team">
