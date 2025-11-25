@@ -16,6 +16,7 @@ include 'includes/header.php';
                 <li><a href="admin-players.php"><i class="fas fa-users"></i> Manage Players</a></li>
                 <li><a href="admin-matches.php"><i class="fas fa-futbol"></i> Manage Matches</a></li>
                 <li><a href="admin-staff.php"><i class="fas fa-user-tie"></i> Manage Staff</a></li>
+                <li><a href="admin-staff-order.php"><i class="fas fa-sort"></i> Arrange Staff Order</a></li>
                 <li><a href="admin-gallery.php"><i class="fas fa-images"></i> Manage Gallery</a></li>
                 <li><a href="admin-videos.php"><i class="fas fa-video"></i> Manage Videos</a></li>
                 <li><a href="admin-content.php"><i class="fas fa-edit"></i> Manage Content</a></li>
